@@ -14,8 +14,8 @@ const products = [
   },
   {
     _id: "2",
-    name: "OnePage",
-    image: "/images/web1.png",
+    name: "SoftLand",
+    image: "/images/web8.png",
     description:
       "Introducing the iPhone 11 Pro. A transformative triple-camera system that adds tons of capability without complexity. An unprecedented leap in battery life",
     brand: "Apple",
@@ -53,15 +53,15 @@ const products = [
   },
   {
     _id: "5",
-    name: "BizPage",
-    image: "/images/web5.png",
+    name: "NineStars",
+    image: "/images/web9.png",
     description:
       "Get a better handle on your games with this Logitech LIGHTSYNC gaming mouse. The six programmable buttons allow customization for a smooth playing experience",
     brand: "Logitech",
     category: "Electronics",
     price: 49.99,
     countInStock: 7,
-    rating: 3.5,
+    rating: 3.3,
     numReviews: 10,
   },
   {
