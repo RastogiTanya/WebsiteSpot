@@ -5,11 +5,13 @@ import {
 	productListReducer,
 	productDetailsReducer,
 } from "./reducers/productReducers.js";
+import { cartReducer } from "./reducers/cartReducers.js";
 
 //merging reducers using combineReducers
 const reducer = combineReducers({
 	productList: productListReducer,
 	productDetails: productDetailsReducer,
+	cart: cartReducer,
 });
 const initialState = {};
 const middleware = [thunk];
