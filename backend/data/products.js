@@ -1,6 +1,5 @@
 const products = [
   {
-    _id: "1",
     name: "KnightOne",
     image: "/images/web2.png",
     description:
@@ -13,7 +12,6 @@ const products = [
     numReviews: 12,
   },
   {
-    _id: "2",
     name: "SoftLand",
     image: "/images/web8.png",
     description:
@@ -26,7 +24,6 @@ const products = [
     numReviews: 8,
   },
   {
-    _id: "3",
     name: "ScafFold",
     image: "/images/web3.png",
     description:
@@ -39,7 +36,6 @@ const products = [
     numReviews: 12,
   },
   {
-    _id: "4",
     name: "PortFolio",
     image: "/images/web4.png",
     description:
@@ -52,7 +48,6 @@ const products = [
     numReviews: 12,
   },
   {
-    _id: "5",
     name: "NineStars",
     image: "/images/web9.png",
     description:
@@ -65,7 +60,6 @@ const products = [
     numReviews: 10,
   },
   {
-    _id: "6",
     name: "BizLand",
     image: "/images/web6.png",
     description:
