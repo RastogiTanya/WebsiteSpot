@@ -6,7 +6,7 @@ const authUser = asyncHandler(async (req, res) => {
 	const user = await User.findOne({ email });
 	if (user && (await user.matchPassword(password))) {
 		res.json({
-			id: user._id,
+			_id: user._id,
 			name: user.name,
 			email: user.email,
 			isAdmin: user.isAdmin,
@@ -32,7 +32,7 @@ const regsiterUser = asyncHandler(async (req, res) => {
 	});
 	if (user) {
 		res.json({
-			id: user._id,
+			_id: user._id,
 			name: user.name,
 			email: user.email,
 			isAdmin: user.isAdmin,
@@ -49,7 +49,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.user._id);
 	if (user) {
 		res.json({
-			id: user._id,
+			_id: user._id,
 			name: user.name,
 			email: user.email,
 			isAdmin: user.isAdmin,
@@ -60,4 +60,27 @@ const getUserProfile = asyncHandler(async (req, res) => {
 	}
 });
 
-export { authUser, getUserProfile, regsiterUser };
+const updateUserProfile = asyncHandler(async (req, res) => {
+	console.log("suvcess");
+	const user = await User.findById(req.user._id);
+	if (user) {
+		user.name = req.body.name || user.name;
+		user.email = req.body.email || user.email;
+		if (req.body.password) {
+			user.password = req.body.password;
+		}
+		const upDatedUser = await user.save();
+		res.json({
+			_id: upDatedUser._id,
+			name: upDatedUser.name,
+			email: upDatedUser.email,
+			isAdmin: upDatedUser.isAdmin,
+			token: generateToken(user._id),
+		});
+	} else {
+		res.status(401);
+		throw new Error("User doesn't exist");
+	}
+});
+
+export { authUser, getUserProfile, regsiterUser, updateUserProfile };
