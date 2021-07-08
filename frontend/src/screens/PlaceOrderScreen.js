@@ -1,18 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import Message from "../components/message";
-import Loader from "../components/loader";
-import CheckoutSteps from "../components/CheckoutSteps";
 
-const PlaceOrderScreen = () => {
+import CheckoutSteps from "../components/CheckoutSteps";
+import { createOrder } from "../actions/orderActions";
+const PlaceOrderScreen = ({ history }) => {
+	const dispatch = useDispatch();
 	const cart = useSelector((state) => state.cart);
 	const addDecimals = (num) => {
 		return (Math.round(num * 100) / 100).toFixed(2);
 	};
+
+	const orderCreate = useSelector((state) => state.orderCreate); //store se data laaya
+	const { order, success, error } = orderCreate;
+
+	useEffect(() => {
+		if (success) {
+			// eslint-disable-next-line
+			history.push(`/order/${order._id}`);
+		}
+	}, [history, success]);//whenever history or success changes
+
 	const placeOrderHandler = () => {
-		console.log("placed");
+		dispatch(
+			createOrder({ //action creator
+				orderItems: cart.cartItems,
+				shippingAddress: cart.shippingAddress,
+				paymentMethod: cart.paymentMethod,
+				itemsPrice: cart.itemsPrice,
+				shippingPrice: cart.shippingPrice,
+				taxPrice: cart.taxPrice,
+				totalPrice: cart.totalPrice,
+			})
+		);
 	};
 	cart.itemsPrice = addDecimals(
 		cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
@@ -116,12 +138,17 @@ const PlaceOrderScreen = () => {
 								</Row>
 							</ListGroup.Item>
 							<ListGroup.Item>
+								{error && (
+									<Message variant="danger">{error}</Message>
+								)}
+							</ListGroup.Item>
+							<ListGroup.Item>
 								<Button
 									variant="dark"
 									className="btn btn-outline-dark"
 									type="button"
 									disabled={cart.cartItems === 0}
-									onCLick={placeOrderHandler}
+									onClick={placeOrderHandler}
 								>
 									Place order
 								</Button>
