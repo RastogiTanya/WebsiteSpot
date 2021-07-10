@@ -7,7 +7,7 @@ import {
 
 export const cartReducer = (
 	state = { cartItems: [], shippingAddress: {} },
-	action
+	action //from cart action
 ) => {
 	switch (action.type) {
 		case CART_ADD_ITEM:
@@ -17,7 +17,7 @@ export const cartReducer = (
 			);
 			if (existItem) {
 				return {
-					...state,
+					...state, //other properties of state will remain same only cart items will get change 
 					cartItems: state.cartItems.map((x) =>
 						x.product === existItem.product ? item : x
 					),

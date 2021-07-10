@@ -12,7 +12,12 @@ import {
 	userDetailsReducer,
 	userUpdateProfileReducer,
 } from "./reducers/userReducer.js";
-import { orderCreateReducer } from "./reducers/orderReducer.js";
+import {
+	orderCreateReducer,
+	orderDetailsReducer,
+} from "./reducers/orderReducer.js";
+
+
 //merging reducers using combineReducers
 const reducer = combineReducers({
 	productList: productListReducer,
@@ -23,6 +28,7 @@ const reducer = combineReducers({
 	userDetails: userDetailsReducer,
 	userUpdateProfile: userUpdateProfileReducer,
 	orderCreate: orderCreateReducer,
+	orderDetails: orderDetailsReducer,
 });
 
 const cartItemsFromStorage = localStorage.getItem("cartItems")
@@ -48,7 +54,7 @@ const initialState = {
 const middleware = [thunk];
 
 const store = createStore(
-	reducer, //use for changing the state
+	reducer, //use for changing the state based on actions received
 	initialState,
 	composeWithDevTools(applyMiddleware(...middleware))
 );
