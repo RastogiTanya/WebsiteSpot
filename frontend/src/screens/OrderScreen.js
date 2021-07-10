@@ -29,7 +29,7 @@ const OrderScreen = ({ match }) => {
 	useEffect(() => {
 		console.log("object");
 		dispatch(getOrderDetails(orderId));
-	}, []); //whenever history or success changes
+	}, [dispatch, orderId]); //whenever history or success changes
 
 	return loading ? (
 		<Loader />
