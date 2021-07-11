@@ -24,9 +24,9 @@ const LoginScreen = ({ location, history }) => {
 	}, [history, userInfo, redirect]);
 	const submitHandler = (e) => {
 		e.preventDefault();
-		console.log(` Before: ${userInfo}`);
+		//console.log(` Before: ${userInfo}`);
 		dispatch(login(email, password));
-		console.log(userInfo);
+		//console.log(userInfo);
 	};
 	return (
 		<FormContainer>
