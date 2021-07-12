@@ -100,6 +100,8 @@ export const payOrder =
 				paymentResult,
 				config
 			);
+
+			console.log("data from orderaction", data);
 			dispatch({
 				type: ORDER_PAY_SUCCESS,
 				payload: data,

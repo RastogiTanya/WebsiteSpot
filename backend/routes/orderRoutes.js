@@ -11,6 +11,6 @@ import { protect } from "../middleware/authMiddleware.js";
 router.post("/", protect, addOrderItems);
 // console.log("1");
 router.get("/:id", protect, getOrderById);
-router.route("/:id/pay").put(protect, getOrderById, updateOrderToPaid);
+router.route("/:id/pay").put(protect, updateOrderToPaid);
 
 export default router;
