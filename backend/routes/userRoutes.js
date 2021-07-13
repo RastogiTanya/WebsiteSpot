@@ -5,12 +5,13 @@ import {
 	getUserProfile,
 	regsiterUser,
 	updateUserProfile,
+	getUsers,
 } from "../controllers/userController.js";
-import { protect } from "../middleware/authMiddleware.js";
+import { protect, admin } from "../middleware/authMiddleware.js";
 //description  : fetch all products
 
+router.route("/").post(regsiterUser).get(protect, admin, getUsers);
 router.post("/login", authUser);
-router.post("/", regsiterUser);
 router
 	.route("/profile")
 	.get(protect, getUserProfile)
