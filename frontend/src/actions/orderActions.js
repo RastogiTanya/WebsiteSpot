@@ -9,6 +9,9 @@ import {
 	ORDER_PAY_REQUEST,
 	ORDER_PAY_RESET,
 	ORDER_PAY_SUCCESS,
+	ORDER_LIST_MY_FAIL,
+	ORDER_LIST_MY_REQUEST,
+	ORDER_LIST_MY_SUCCESS,
 } from "../constants/orderConstants";
 import axios from "axios";
 
@@ -101,7 +104,7 @@ export const payOrder =
 				config
 			);
 
-			console.log("data from orderaction", data);
+			//console.log("data from orderaction", data);
 			dispatch({
 				type: ORDER_PAY_SUCCESS,
 				payload: data,
@@ -116,3 +119,37 @@ export const payOrder =
 			});
 		}
 	};
+
+export const listMyOrders = () => async (dispatch, getState) => {
+	try {
+		dispatch({
+			//reducer ko bhejega
+			type: ORDER_LIST_MY_REQUEST,
+		});
+
+		const {
+			userLogin: { userInfo },
+		} = getState();
+		const config = {
+			headers: {
+				Authorization: `Bearer ${userInfo.token}`,
+			},
+		};
+
+		const { data } = await axios.get(`/api/orders/myorders`, config);
+
+		//console.log("data from orderaction", data);
+		dispatch({
+			type: ORDER_LIST_MY_SUCCESS,
+			payload: data,
+		});
+	} catch (error) {
+		dispatch({
+			type: ORDER_LIST_MY_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
