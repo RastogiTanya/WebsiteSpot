@@ -10,8 +10,13 @@ const UserListScreen = () => {
 	const dispatch = useDispatch();
 	const userList = useSelector((state) => state.userList);
 	const { loading, error, users } = userList;
+
+	const userLogin = useSelector((state) => state.userLogin);
+	const { userInfo } = userLogin;
 	useEffect(() => {
-		dispatch(listUsers());
+		if (userInfo && userInfo.isAdmin) {
+			dispatch(listUsers());
+		}
 	}, [dispatch]);
 
 	const deleteHandler = (id) => {
@@ -36,7 +41,7 @@ const UserListScreen = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{users.map((user) => {
+						{users.map((user) => (
 							<tr key={user._id}>
 								<td>{user._id}</td>
 								<td>{user.name}</td>
@@ -77,8 +82,8 @@ const UserListScreen = () => {
 										<i className="fas fa-trash"></i>
 									</Button>
 								</td>
-							</tr>;
-						})}
+							</tr>
+						))}
 					</tbody>
 				</Table>
 			)}
