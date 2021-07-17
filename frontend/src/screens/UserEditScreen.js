@@ -4,7 +4,8 @@ import { Form, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import Message from "../components/message";
 import Loader from "../components/loader";
-import { getUserDetails } from "../actions/userAction";
+import { getUserDetails, updateUser } from "../actions/userAction";
+import { USER_UPDATE_RESET } from "../constants/userConstants";
 import FormContainer from "../components/FormContainer";
 
 const UserEditScreen = ({ match, history }) => {
@@ -18,19 +19,31 @@ const UserEditScreen = ({ match, history }) => {
 	const userDetails = useSelector((state) => state.userDetails);
 	const { loading, error, user } = userDetails;
 
+	const userUpdate = useSelector((state) => state.userUpdate);
+	const {
+		loading: loadingUpdate,
+		error: errorUpdate,
+		success: successUpdate,
+	} = userUpdate;
+
 	useEffect(() => {
-		if (!user.name || user._id !== userId) {
-			dispatch(getUserDetails(userId));
+		if (successUpdate) {
+			dispatch({ type: USER_UPDATE_RESET });
+			history.push("/admin/userlist");
 		} else {
-			setName(user.name);
-			setEmail(user.email);
-			setisAdmin(user.isAdmin);
+			if (!user.name || user._id !== userId) {
+				dispatch(getUserDetails(userId));
+			} else {
+				setName(user.name);
+				setEmail(user.email);
+				setisAdmin(user.isAdmin);
+			}
 		}
-	}, [dispatch, userId, user]);
+	}, [dispatch, history, userId, user, successUpdate]);
 
 	const submitHandler = (e) => {
 		e.preventDefault();
-
+		dispatch(updateUser({ _id: userId, name, email, isAdmin }));
 		// console.log(userInfo);
 	};
 
@@ -41,10 +54,14 @@ const UserEditScreen = ({ match, history }) => {
 			</Link>
 			<FormContainer>
 				<h1>Edit User</h1>
+				{loadingUpdate && <Loader />}
+				{errorUpdate && (
+					<Message variant="danger">{errorUpdate}</Message>
+				)}
 				{loading ? (
 					<Loader />
 				) : error ? (
-					<Message varinat="danger">{error}</Message>
+					<Message variant="danger">{error}</Message>
 				) : (
 					<Form onSubmit={submitHandler}>
 						<Form.Group controlId="name">
