@@ -23,7 +23,7 @@ const UserListScreen = ({ history }) => {
 		} else {
 			history.push("/login");
 		}
-	}, [dispatch, history, successDelete]);
+	}, [dispatch, history, successDelete, userInfo ]);
 
 	const deleteHandler = (id) => {
 		//console.log(id);
@@ -74,7 +74,7 @@ const UserListScreen = ({ history }) => {
 								</td>
 								<td>
 									<LinkContainer
-										to={`/user/${user._id}/edit`}
+										to={`/admin/user/${user._id}/edit`}
 									>
 										<Button
 											variant="white"
