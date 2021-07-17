@@ -61,7 +61,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 });
 
 const updateUserProfile = asyncHandler(async (req, res) => {
-	console.log("suvcess");
+	//console.log("suvcess");
 	const user = await User.findById(req.user._id);
 	if (user) {
 		user.name = req.body.name || user.name;
@@ -93,7 +93,7 @@ const getUsers = asyncHandler(async (req, res) => {
 //delet user
 const deleteUser = asyncHandler(async (req, res) => {
 	// res.send("suvcess");
-	console.log("inside");
+	//console.log("inside");
 	const user = await User.findById(req.params.id);
 	console.log(user);
 	if (user) {
@@ -107,6 +107,41 @@ const deleteUser = asyncHandler(async (req, res) => {
 	}
 	//res.json(users);
 });
+
+const getUserById = asyncHandler(async (req, res) => {
+	// res.send("suvcess");
+	//console.log("inside");
+	const user = await User.findById(req.params.id).select("-password");
+	// console.log(user);
+	if (user) {
+		//
+		res.json(user);
+	} else {
+		res.status(404);
+		throw new Error("User not found");
+	}
+});
+
+const updateUser = asyncHandler(async (req, res) => {
+	//console.log("suvcess");
+	const user = await User.findById(req.params.id);
+	if (user) {
+		user.name = req.body.name || user.name;
+		user.email = req.body.email || user.email;
+		user.isAdmin = req.body.isAdmin || user.isAdmin;
+		const upDatedUser = await user.save();
+		res.json({
+			_id: upDatedUser._id,
+			name: upDatedUser.name,
+			email: upDatedUser.email,
+			isAdmin: upDatedUser.isAdmin,
+			//	token: generateToken(user._id),
+		});
+	} else {
+		res.status(401);
+		throw new Error("User doesn't exist");
+	}
+});
 export {
 	authUser,
 	getUserProfile,
@@ -114,4 +149,6 @@ export {
 	updateUserProfile,
 	getUsers,
 	deleteUser,
+	getUserById,
+	updateUser,
 };
