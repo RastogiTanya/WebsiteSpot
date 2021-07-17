@@ -87,7 +87,31 @@ const getUsers = asyncHandler(async (req, res) => {
 	// res.send("suvcess");
 	const users = await User.find({});
 
-	res.json(users );
+	res.json(users);
 });
 
-export { authUser, getUserProfile, regsiterUser, updateUserProfile,getUsers };
+//delet user
+const deleteUser = asyncHandler(async (req, res) => {
+	// res.send("suvcess");
+	console.log("inside");
+	const user = await User.findById(req.params.id);
+	console.log(user);
+	if (user) {
+		await user.remove();
+		res.json({
+			message: "User removed",
+		});
+	} else {
+		res.status(404);
+		throw new Error("User not found");
+	}
+	//res.json(users);
+});
+export {
+	authUser,
+	getUserProfile,
+	regsiterUser,
+	updateUserProfile,
+	getUsers,
+	deleteUser,
+};
