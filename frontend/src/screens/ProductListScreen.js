@@ -38,8 +38,8 @@ const ProductListScreen = ({ history, match }) => {
 			type: PRODUCT_CREATE_RESET,
 		});
 
-		if (!userInfo.isAdmin) {
-			history.push("./login");
+		if (!userInfo || !userInfo.isAdmin) {
+			history.push("/login");
 			//	dispatch(listProducts());
 		}
 		if (successCreate) {
@@ -109,7 +109,7 @@ const ProductListScreen = ({ history, match }) => {
 								<td>{product.brand}</td>
 								<td>
 									<LinkContainer
-										to={`/admin/user/${product._id}/edit`}
+										to={`/admin/product/${product._id}/edit`}
 									>
 										<Button
 											variant="white"
