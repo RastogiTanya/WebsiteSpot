@@ -14,6 +14,10 @@ import {
 	PRODUCT_UPDATE_FAILED,
 	PRODUCT_UPDATE_REQUEST,
 	PRODUCT_UPDATE_SUCCESS,
+	PRODUCT_CREATE_REVIEW_FAILED,
+	PRODUCT_CREATE_REVIEW_REQUEST,
+	PRODUCT_CREATE_REVIEW_RESET,
+	PRODUCT_CREATE_REVIEW_SUCCESS,
 } from "../constants/productConstants.js";
 import axios from "axios";
 
@@ -161,3 +165,37 @@ export const updateProduct = (product) => async (dispatch, getState) => {
 		});
 	}
 };
+
+export const createProductReview =
+	(productId, review) => async (dispatch, getState) => {
+		try {
+			dispatch({
+				//reducer ko bhejega
+				type: PRODUCT_CREATE_REVIEW_REQUEST,
+			});
+
+			const {
+				userLogin: { userInfo },
+			} = getState();
+			const config = {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${userInfo.token}`,
+				},
+			};
+			await axios.post(`/api/products/${productId}`, review, config);
+
+			//console.log("data from orderaction", data);
+			dispatch({
+				type: PRODUCT_CREATE_REVIEW_SUCCESS,
+			});
+		} catch (error) {
+			dispatch({
+				type: PRODUCT_CREATE_REVIEW_FAILED,
+				payload:
+					error.response && error.response.data.message
+						? error.response.data.message
+						: error.message,
+			});
+		}
+	};
