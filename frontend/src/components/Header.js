@@ -1,8 +1,10 @@
 import React from "react";
+import { Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { logout } from "../actions/userAction";
+import SearchBox from "./SearchBox";
 
 const Header = () => {
 	const dispatch = useDispatch();
@@ -16,7 +18,7 @@ const Header = () => {
 			<Navbar bg="light" expand="lg" variant="light" collapseOnSelect>
 				<Container>
 					<LinkContainer to="/">
-						<Navbar.Brand>Webiste Spot</Navbar.Brand>
+						<Navbar.Brand>Website Spot</Navbar.Brand>
 					</LinkContainer>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse id="basic-navbar-nav">
@@ -68,6 +70,11 @@ const Header = () => {
 							)}
 						</Nav>
 					</Navbar.Collapse>
+					<Route
+						render={({ history }) => (
+							<SearchBox history={history} />
+						)}
+					/>
 				</Container>
 			</Navbar>
 		</header>
