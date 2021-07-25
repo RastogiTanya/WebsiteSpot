@@ -14,7 +14,7 @@ const Homescreen = ({ match }) => {
 	const { loading, error, products } = productList;
 	useEffect(() => {
 		dispatch(listProducts(keyword));
-	}, [dispatch]);
+	}, [dispatch, keyword]);
 
 	return (
 		<>
